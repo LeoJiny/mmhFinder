@@ -24,12 +24,12 @@ def vcf_to_csv(number):
     for record in vcf_reader:
         former_data_index = record.CHROM + ' ' + record.ID + ' ' + str(record.POS) + ' ' \
                             + record.REF + ' ' + str(record.ALT[0]) + ' ' + str(record.QUAL)
-        data_index = split(former_data_index)  # 将这个字符串变成一个列表 's'变成['s']
+        data_index = split(former_data_index)  # turn 's' into ['s']
         for a in range(0, len(record.samples)):
             # 按下标访问Call，按.sample访问sample，按键访问FORMAT对应信息
             sample_data = record.samples[a]['GT']
             data_index.append(sample_data)
-        # 变成列表以后才可以用来Dataframe
+        # Turn into list
         all_data.append(data_index)
     return all_data
 
@@ -102,7 +102,7 @@ def count_mSNPs(nchr,snplist,column_name,calculate_data):
 
 
 '''
-用于记录微单倍型信息
+Record the information of this mouse microhaplotype
 '''
 def return_mSNP_detail(msnpdt,detaildt):
     v = list()
@@ -127,10 +127,10 @@ def return_mSNP_detail(msnpdt,detaildt):
 Calculate Ae
 '''
 def calculate_Ae(msnpdt):
-    j = 6  # 列计数器
-    i = 0  # 行计数器
-    singlemSNPlist = list()  # 用于存放单个品系的这一区段的微单倍型
-    all_mSNP_list = list()  # 用于存放这一区段所有品系的微单倍型
+    j = 6  # column instructor
+    i = 0  # row instructor
+    singlemSNPlist = list()  # genotype of this microhaplotype of one specific strain
+    all_mSNP_list = list()  # all genotypes of this microhaplotypes among all strians
     while j < int(msnpdt.shape[1]):
         while i < len(msnpdt):
             singlemSNPlist.append(msnpdt.iloc[i][j])
@@ -154,10 +154,10 @@ return number of alleles of each microhaplotype
 '''
 
 def return_NA(msnpdt):
-    j = 6  # 列计数器
-    i = 0  # 行计数器
-    singlemSNPlist = list()  # 用于存放一个品系的这一区段的微单倍型
-    all_mSNP_list = list()  # 用于存放这一区段所有品系的微单倍型
+    j = 6  # column instructor
+    i = 0  # row instructor
+    singlemSNPlist = list()  # genotype of this microhaplotype of one specific strain
+    all_mSNP_list = list()  # all genotypes of this microhaplotypes among all strians
     while j < int(msnpdt.shape[1]):
         while i < len(msnpdt):
             singlemSNPlist.append(msnpdt.iloc[i][j])
@@ -189,10 +189,10 @@ def split_mSNPS(snplist,startrow,namelist):
 Filter microhaplotypes with NA 
 '''
 def select_MEA(snplist,second_dt,namelist):
-    startrow = 0   #根据染色体号给出第一行
-    lastrow = len(snplist)   # 该染色体号的最后一行
+    startrow = 0   #the first line of this chromosome
+    lastrow = len(snplist)   # last line of this chromosome
     while startrow <lastrow:
-        msnps = split_mSNPS(snplist, startrow,namelist)  # 从这个startrow开始找微单倍型
+        msnps = split_mSNPS(snplist, startrow,namelist)  # identify microhap from this line
         #print(msnps)
         #temporary = pd.DataFrame(columns=['CHROM', 'StartID', 'EndID', 'Startpos',
                                            # 'EndPos', 'Distance','MEA','SNP amount'])
